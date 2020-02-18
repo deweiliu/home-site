@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Dewei Liu</title>
-    <script type="text/javascript"></script>
-    <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
-
+    <link rel="icon" type="image/png" href="images/favicon.png" />
+    <meta name="theme-color" content="#40B1FA">
 </head>
 
 <body>
@@ -27,9 +26,9 @@
     <p><a href="https://github.com/deweiliu">GitHub</a></p>
 
     <div style="bottom: 1%;left: 1%;position: absolute;">
-        <p>Updated on 
+        <p>Updated on
             <?php
-            $time = getenv('UPDATE_TIME');            
+            $time = getenv('UPDATE_TIME');
             echo date("l d F Y", $time);
             ?>
         </p>
