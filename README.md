@@ -1,2 +1,4 @@
-# Dewei's Website
-## Please see my website at [deweiliu.com](https://deweiliu.com/)
+# [Dewei Personal Website](http://deweiliu.com)
+
+## Link
+Please visit my website at [deweiliu.com](https://deweiliu.com/)
