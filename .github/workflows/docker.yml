@@ -11,7 +11,7 @@ jobs:
       - name: Build the Docker image
         run: |
           current_time=$(date +%s)
-          docker build . --file Dockerfile --tag deweiliu/my-website:latest --build-arg UPDATE_TIME=${current_time}
+          docker-compose build --build-arg UPDATE_TIME=${current_time}
           docker login --username deweiliu --password ${{ secrets.docker_access }}
-          docker push deweiliu/my-website:latest
+          docker-compose push
           docker logout

@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  best-friends:
+    image: deweiliu/my-website:latest
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+      args: 
+        UPDATE_TIME: $UPDATE_TIME
+    ports:
+      - 80:80
+    container_name: my-website-container
