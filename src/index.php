@@ -36,7 +36,7 @@
             ?>
         </p>
         <p>Thank you :)</p>
-        <img src="/images/favicon.png" width="10%" height="10%">
+        <img src="/images/favicon.png" width="50px" height="50px">
     </div>
 </body>
 
