@@ -15,7 +15,7 @@
 
         <h1><a href="/">Dewei Liu</a></h1>
         <p>Hi, welcome to my personal website.</p>
-        <p>Please view my <a href="resume/Dewei Liu CV.pdf">resume</a> and <a href="resume/Dewei Liu transcript.pdf">academic transcript</a>.</p>
+        <p>Please view my <a href="doc/resume.pdf">resume</a> and <a href="doc/transcript.pdf">academic transcript</a>.</p>
         <p>Below are my on-going projects</p>
         <p><a href="http://repeater.deweiliu.com/">Webpage Repeater</a> - A service that helps you browse the Internet
             without revealing your IP address</p>
@@ -32,7 +32,7 @@
         <p>Updated on
             <?php
             $time = getenv('UPDATE_TIME');
-            echo date("l d F Y", $time);
+            echo date("d F Y", $time);
             ?>
         </p>
         <p>Thank you :)</p>
