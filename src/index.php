@@ -14,6 +14,7 @@
     <div class="w3-container">
 
         <h1><a href="/">Dewei Liu</a></h1>
+
         <p>Hi, welcome to my personal website.</p>
         <p>Please view my <a href="doc/resume.pdf">resume</a> and <a href="doc/transcript.pdf">academic transcript</a>.</p>
         <p>Below are my on-going projects</p>
@@ -23,6 +24,14 @@
             conversations</p>
         <p><a href="http://paperborne.deweiliu.com/">Paperborne</a> - An Android card game with an online demo.</p>
         <br>
+        <p>Below are my games</p>
+        <p><a href="https://rps.deweiliu.com/">Rock Paper Scissors</a></p>
+        <p><a href="https://super-mario.deweiliu.com/">Super Mario Brothers</a></p>
+        <p><a href="https://pacman.deweiliu.com/">Pac-Man</a></p>
+        <p><a href="https://racer.deweiliu.com/">3D Racer</a></p>
+        <p><a href="https://clumsy-bird.deweiliu.com/">Clumsy Bird</a></p>
+        <br>
+
         <p>You can also follow me via the following sites.</p>
         <p><a href="https://www.linkedin.com/in/deweiliu/">LinkedIn</a></p>
         <p><a href="https://github.com/deweiliu">GitHub</a></p>
