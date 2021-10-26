@@ -1,15 +1,15 @@
 pipeline {
-    agent ubuntu
+    agent 'ubuntu'
 
     stages {
         stage('Build Docker Image') {
             steps {
-                sh 'docker-compose build' 
+                sh 'docker-compose build'
             }
         }
         stage('Docker Login') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'username',passwordVariable: 'password')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'username', passwordVariable: 'password')]) {
                     sh "docker login --username ${username} --password ${password}"
                 }
             }
