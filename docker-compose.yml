@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  dewei:
-    image: deweiliu/dewei:latest
+  home-site:
+    image: deweiliu/home-site:latest
     build:
       context: ./src
       dockerfile: Dockerfile
@@ -10,4 +10,4 @@ services:
         UPDATE_TIME: $UPDATE_TIME
     ports:
       - 80:80
-    container_name: dewei-container
+    container_name: home-site-container
