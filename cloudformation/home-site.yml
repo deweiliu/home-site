@@ -1,0 +1,219 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  JenkinsDockerImage:
+    Type: String
+  JenkinsFileSystem:
+    Type: String
+  VPC:
+    Type: String
+  MasterSubnet1:
+    Type: String
+  SlavesSubnet1:
+    Type: String
+  MasterSubnet2:
+    Type: String
+  SlavesSubnet2:
+    Type: String
+  MasterRole:
+    Type: String
+  ECSExecutionRole:
+    Type: String
+
+Description:
+  Provision the required resources for blog post example 'Deploying Jenkins to ECS'.
+  Wait for creation to complete before testing.
+Resources:
+  SSL:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: jenkins.dliu.com
+      DomainValidationOptions:
+        - DomainName: jenkins.dliu.com
+          HostedZoneId: !ImportValue DLIUCOMHostedZoneID
+      ValidationMethod: DNS
+
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Subnets:
+        - !Ref MasterSubnet1
+        - !Ref MasterSubnet2
+      SecurityGroups:
+        - !Ref LoadBalancerSecurityGroup
+  LoadBalancerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: LoadBalancerSecurityGroup
+      GroupDescription: Security group for load balancer
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          DestinationSecurityGroupId: !Ref MasterSecurityGroup
+
+  HttpLoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: redirect
+          RedirectConfig:
+            Protocol: HTTPS
+            Port: 443
+            StatusCode: HTTP_301
+            Host: "#{host}"
+            Path: "/#{path}"
+            Query: "#{query}"
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: 80
+      Protocol: HTTP
+  HttpsLoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      Certificates:
+        - CertificateArn: !Ref SSL
+      DefaultActions:
+        - Type: forward
+          ForwardConfig:
+            TargetGroups:
+              - TargetGroupArn: !Ref JenkinsTargetGroup
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: 443
+      Protocol: HTTPS
+  JenkinsTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckPath: /login
+      Name: JenkinsTargetGroup
+      Port: 8080
+      Protocol: HTTP
+      TargetType: ip
+      VpcId: !Ref VPC
+      TargetGroupAttributes:
+        - Key: deregistration_delay.timeout_seconds
+          Value: 10
+  SlavesSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: SlavesSecurityGroup
+      GroupDescription: Security group for Jenkins slaves
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - FromPort: 22
+          IpProtocol: tcp
+          SourceSecurityGroupId: !Ref MasterSecurityGroup
+          ToPort: 22
+
+  MasterSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: MasterSecurityGroup
+      GroupDescription: Security group for Jenkins master
+      VpcId: !Ref VPC
+
+  JenkinsLoadBalancerSecurityGroupIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      FromPort: 8080
+      ToPort: 8080
+      GroupId: !Ref MasterSecurityGroup
+      SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: default-cluster
+
+  JenkinsTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub jenkins-task
+      Cpu: 2048
+      Memory: 8192
+      NetworkMode: awsvpc
+      TaskRoleArn: !Ref MasterRole
+      ExecutionRoleArn: !Ref ECSExecutionRole
+      RequiresCompatibilities:
+        - FARGATE
+        - EC2
+      ContainerDefinitions:
+        - Name: jenkins
+          Image: !Ref JenkinsDockerImage
+          PortMappings:
+            - ContainerPort: 22
+            - ContainerPort: 8080
+          MountPoints:
+            - SourceVolume: jenkins-home
+              ContainerPath: /var/jenkins_home
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudwatchLogsGroup
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: jenkins
+      Volumes:
+        - Name: jenkins-home
+          EFSVolumeConfiguration:
+            FilesystemId: !Ref JenkinsFileSystem
+            TransitEncryption: ENABLED
+            AuthorizationConfig:
+              AccessPointId: !Ref AccessPointResource
+              IAM: ENABLED
+  CloudwatchLogsGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Join ["-", [ECSLogGroup, !Ref "AWS::StackName"]]
+      RetentionInDays: 14
+  JenkinsService:
+    Type: AWS::ECS::Service
+    DependsOn:
+      - HttpLoadBalancerListener
+      - HttpsLoadBalancerListener
+    Properties:
+      Cluster: !Ref ECSCluster
+      TaskDefinition: !Ref JenkinsTaskDefinition
+      DesiredCount: 1
+      HealthCheckGracePeriodSeconds: 300
+      LaunchType: FARGATE
+      PlatformVersion: 1.4.0
+      DeploymentConfiguration:
+        MinimumHealthyPercent: 0
+        MaximumPercent: 100
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets:
+            - !Ref MasterSubnet1
+            - !Ref MasterSubnet2
+          SecurityGroups:
+            - !GetAtt MasterSecurityGroup.GroupId
+      LoadBalancers:
+        - ContainerName: jenkins
+          ContainerPort: 8080
+          TargetGroupArn: !Ref JenkinsTargetGroup
+
+
+  JenkinsCNameRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !ImportValue DLIUCOMHostedZoneID
+      Name: jenkins.dliu.com
+      Type: CNAME
+      TTL: "3600"
+      ResourceRecords:
+        - !GetAtt LoadBalancer.DNSName
+
+Outputs:
+  Logs:
+    Value: !Ref CloudwatchLogsGroup
+  JenkinsCNameRecord:
+    Value: !Ref JenkinsCNameRecord

@@ -10,3 +10,4 @@ services:
         UPDATE_TIME: $UPDATE_TIME
     ports:
       - 80:80
+    container_name: dewei-container

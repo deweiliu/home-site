@@ -1,0 +1,18 @@
+pipeline {
+    agent {
+        label 'amazon-linux'
+    }
+
+    stages {
+        stage('CloudFormation Deploy'){
+            steps{
+                dir('cdk'){
+                    sh '''
+                    npm install;
+                    cdk deploy;
+                    '''
+                }
+            }
+        }
+    }
+}
