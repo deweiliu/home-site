@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  best-friends:
+  dewei:
     image: deweiliu/dewei:latest
     build:
       context: ./src
@@ -10,4 +10,3 @@ services:
         UPDATE_TIME: $UPDATE_TIME
     ports:
       - 80:80
-    container_name: dewei-container
