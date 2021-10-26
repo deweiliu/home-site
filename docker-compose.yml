@@ -2,7 +2,7 @@ version: '3'
 
 services:
   best-friends:
-    image: deweiliu/my-website:latest
+    image: deweiliu/dewei:latest
     build:
       context: ./src
       dockerfile: Dockerfile
@@ -10,4 +10,4 @@ services:
         UPDATE_TIME: $UPDATE_TIME
     ports:
       - 80:80
-    container_name: my-website-container
+    container_name: dewei-container
