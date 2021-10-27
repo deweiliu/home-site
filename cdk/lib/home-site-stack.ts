@@ -20,15 +20,19 @@ export class CdkStack extends cdk.Stack {
       validation: acm.CertificateValidation.fromDns(hostedZone),
     });
 
+    const vpc = new ec2.Vpc(this, "VPC");
+    const cluster = new ecs.Cluster(this, "Cluster", { vpc });
+
     const fargate = new ecs_patterns.ApplicationLoadBalancedFargateService(this, "Fargate", {
+      cluster: cluster,
       taskImageOptions: { image: ecs.ContainerImage.fromRegistry("deweiliu/home-site:latest") },
       publicLoadBalancer: true,
       redirectHTTP: true,
       certificate,
-      recordType: ecs_patterns.ApplicationLoadBalancedServiceRecordType.ALIAS,
+      recordType: ecs_patterns.ApplicationLoadBalancedServiceRecordType.CNAME,
       serviceName: 'home-site',
       domainName,
-      domainZone: { ...hostedZone, zoneName: domainName }
+      domainZone:{ ...hostedZone, zoneName: domainName }
     });
 
     // const cname = new route53.ARecord(this, 'HomeSiteCName', {
