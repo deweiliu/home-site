@@ -33,8 +33,8 @@ export class EcsStack extends cdk.NestedStack {
         this.fargateService = new ecs.FargateService(this, 'Service', {
             cluster,
             taskDefinition,
-            assignPublicIp: false,
-            vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+            assignPublicIp: true,
+            vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
             securityGroups: [securityGroup],
         });
 
