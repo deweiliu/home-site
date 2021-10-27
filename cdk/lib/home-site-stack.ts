@@ -31,13 +31,15 @@ export class CdkStack extends cdk.Stack {
       certificate,
       recordType: ecs_patterns.ApplicationLoadBalancedServiceRecordType.CNAME,
       serviceName: 'home-site',
+      domainName,
+      domainZone:{ ...hostedZone, zoneName: domainName }
     });
 
-    const cname = new route53.CnameRecord(this, 'HomeSiteCName', {
-      domainName: fargate.loadBalancer.loadBalancerDnsName,
-      zone: { ...hostedZone, zoneName: domainName },
-      ttl: Duration.hours(1),
-    });
+    // const cname = new route53.ARecord(this, 'HomeSiteCName', {
+    //   target:{aliasTarget:{}},
+    //   zone: { ...hostedZone, zoneName: domainName },
+    //   ttl: Duration.hours(1),
+    // });
 
     new cdk.CfnOutput(this, 'HomeSiteDNSName', { value: domainName });
   }
