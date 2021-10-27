@@ -32,12 +32,12 @@ export class CdkStack extends cdk.Stack {
     });
 
 
-    // new route53.CnameRecord(this, 'CName', {
-    //   domainName,
-    //   zone: hostedZone.zoneName,
-    //   recordName: fargate.loadBalancer.loadBalancerDnsName,
-    //   ttl: Duration.hours(1),
-    // });
+    new route53.CnameRecord(this, 'CName', {
+      domainName,
+      zone: { ...hostedZone, zoneName: 'DLIUCOM' },
+      recordName: fargate.loadBalancer.loadBalancerDnsName,
+      ttl: Duration.hours(1),
+    });
 
   }
 }
