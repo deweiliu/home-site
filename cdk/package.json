@@ -8,7 +8,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk-deploy": "cdk deploy --require-approval=never"
+    "cdk-deploy": "cdk deploy --require-approval=never",
+    "cdk-synth": "cdk synth > cdk.out/template.yml"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.129.0",
@@ -25,6 +26,7 @@
     "@aws-cdk/aws-ec2": "^1.129.0",
     "@aws-cdk/aws-ecs": "^1.129.0",
     "@aws-cdk/aws-ecs-patterns": "^1.129.0",
+    "@aws-cdk/aws-elasticloadbalancingv2": "^1.129.0",
     "@aws-cdk/aws-route53": "^1.129.0",
     "@aws-cdk/aws-s3": "1.129.0",
     "@aws-cdk/core": "1.129.0",
