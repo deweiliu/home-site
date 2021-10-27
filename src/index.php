@@ -23,8 +23,6 @@
         <p>Hi, welcome to my personal website.</p>
         <p>Please view my <a href="doc/resume.pdf">resume</a> and <a href="doc/transcript.pdf">academic transcript</a>.</p>
         <p>Below are my on-going projects</p>
-        <p><a href="http://repeater.deweiliu.com/">Webpage Repeater</a> - A service that helps you browse the Internet
-            without revealing your IP address</p>
         <p><a href="http://best-friends.deweiliu.com/">Best Friends App</a> - An online chatbot that does simple
             conversations</p>
         <p><a href="http://paperborne.deweiliu.com/">Paperborne</a> - An Android card game with an online demo.</p>
