@@ -26,7 +26,6 @@ export class CdkStack extends cdk.Stack {
       cluster: cluster,
       taskImageOptions: { image: ecs.ContainerImage.fromRegistry("deweiliu/home-site:latest") },
       publicLoadBalancer: true,
-      protocol: ApplicationProtocol.HTTPS,
       redirectHTTP: true,
       certificate
     });
