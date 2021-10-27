@@ -33,11 +33,15 @@ export class CdkStack extends cdk.Stack {
       serviceName: 'home-site',
     });
 
-    new route53.CnameRecord(this, 'HomeSiteCName', {
+    const cname = new route53.CnameRecord(this, 'HomeSiteCName', {
       domainName,
       zone: { ...hostedZone, zoneName: domainName },
+      recordName: fargate.loadBalancer.loadBalancerDnsName,
+      ttl: Duration.hours(1),
     });
 
-    // new cdk.CfnOutput(this,'HomeSiteDNSName',{})
+    new cdk.CfnOutput(this, 'HomeSiteDNSName', {
+      value:cname.domainName
+    })
   }
 }
