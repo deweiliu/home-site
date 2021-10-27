@@ -29,7 +29,7 @@ export class CdkStack extends cdk.Stack {
       publicLoadBalancer: true,
       redirectHTTP: true,
       certificate,
-      recordType: ecs_patterns.ApplicationLoadBalancedServiceRecordType.CNAME,
+      recordType: ecs_patterns.ApplicationLoadBalancedServiceRecordType.ALIAS,
       serviceName: 'home-site',
       domainName,
       domainZone:{ ...hostedZone, zoneName: domainName }
