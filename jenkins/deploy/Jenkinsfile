@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'amazon-linux'
+        label 'deployer-slave-amazon-linux'
     }
 
     stages {
