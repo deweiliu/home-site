@@ -5,7 +5,8 @@ import * as ecs_patterns from '@aws-cdk/aws-ecs-patterns';
 import * as route53 from '@aws-cdk/aws-route53';
 import { Duration } from '@aws-cdk/core';
 import * as acm from '@aws-cdk/aws-certificatemanager';
-import { ApplicationProtocol } from '@aws-cdk/aws-elasticloadbalancingv2';
+import { ApplicationProtocol, } from '@aws-cdk/aws-elasticloadbalancingv2';
+import { Connections, SecurityGroup } from '@aws-cdk/aws-ec2';
 
 export class CdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -22,21 +23,16 @@ export class CdkStack extends cdk.Stack {
     const vpc = new ec2.Vpc(this, "VPC");
     const cluster = new ecs.Cluster(this, "Cluster", { vpc });
 
-    const fargate = new ecs_patterns.ApplicationLoadBalancedFargateService(this, "MyFargateService", {
+    const fargate = new ecs_patterns.ApplicationLoadBalancedFargateService(this, "Fargate", {
       cluster: cluster,
       taskImageOptions: { image: ecs.ContainerImage.fromRegistry("deweiliu/home-site:latest") },
       publicLoadBalancer: true,
       redirectHTTP: true,
-      certificate
-    });
-
-
-    new route53.CnameRecord(this, 'CName', {
+      domainZone: { ...hostedZone, zoneName: domainName },
       domainName,
-      zone: { ...hostedZone, zoneName: 'dliu.com' },
-      recordName: fargate.loadBalancer.loadBalancerDnsName,
-      ttl: Duration.hours(1),
+      certificate,
+      recordType: ecs_patterns.ApplicationLoadBalancedServiceRecordType.CNAME,
+      serviceName: 'home-site',
     });
-
   }
 }
