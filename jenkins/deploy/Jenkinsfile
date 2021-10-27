@@ -4,7 +4,7 @@ pipeline {
     }
 
     stages {
-        stage('CloudFormation Deploy'){
+        stage('CDK Deploy'){
             steps{
                 dir('cdk'){
                     sh '''

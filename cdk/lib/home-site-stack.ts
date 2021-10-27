@@ -34,7 +34,7 @@ export class CdkStack extends cdk.Stack {
 
     new route53.CnameRecord(this, 'CName', {
       domainName,
-      zone: { ...hostedZone, zoneName: 'DLIUCOM' },
+      zone: { ...hostedZone, zoneName: 'dliu.com' },
       recordName: fargate.loadBalancer.loadBalancerDnsName,
       ttl: Duration.hours(1),
     });
