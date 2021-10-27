@@ -28,11 +28,16 @@ export class CdkStack extends cdk.Stack {
       taskImageOptions: { image: ecs.ContainerImage.fromRegistry("deweiliu/home-site:latest") },
       publicLoadBalancer: true,
       redirectHTTP: true,
-      domainZone: { ...hostedZone, zoneName: domainName },
-      domainName,
       certificate,
       recordType: ecs_patterns.ApplicationLoadBalancedServiceRecordType.CNAME,
       serviceName: 'home-site',
     });
+
+    new route53.CnameRecord(this, 'HomeSiteCName', {
+      domainName,
+      zone: { ...hostedZone, zoneName: domainName },
+    });
+
+    // new cdk.CfnOutput(this,'HomeSiteDNSName',{})
   }
 }
