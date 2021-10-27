@@ -14,4 +14,3 @@ export class VpcStack extends cdk.NestedStack {
         });
     }
 }
-

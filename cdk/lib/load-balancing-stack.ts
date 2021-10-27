@@ -2,11 +2,12 @@ import * as cdk from '@aws-cdk/core';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as acm from '@aws-cdk/aws-certificatemanager';
 import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
+import * as route53 from '@aws-cdk/aws-route53';
+
 export interface LoadBalancingStackProps extends cdk.NestedStackProps {
     vpc: ec2.Vpc;
-    certificate: acm.Certificate;
+    hostedZone: route53.IHostedZone;
 }
-
 
 export class LoadBalancingStack extends cdk.NestedStack {
     public loadBalancer: elb.ApplicationLoadBalancer;
@@ -42,11 +43,16 @@ export class LoadBalancingStack extends cdk.NestedStack {
             targetPort: 443, targetProtocol: elb.ApplicationProtocol.HTTPS,
         });
 
+        const certificate = new acm.Certificate(this, 'Certificate', {
+            domainName: props.hostedZone.zoneName,
+            validation: acm.CertificateValidation.fromDns(props.hostedZone),
+        });
+
         this.loadBalancer.addListener('HttpsListner', {
             port: 443,
             protocol: elb.ApplicationProtocol.HTTPS,
             defaultTargetGroups: [this.albTargetGroup],
-            certificates: [props.certificate],
+            certificates: [certificate],
         });
     }
 }
