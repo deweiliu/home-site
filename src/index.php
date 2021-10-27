@@ -23,6 +23,7 @@
         <p>Hi, welcome to my personal website.</p>
         <p>Please view my <a href="doc/resume.pdf">resume</a> and <a href="doc/transcript.pdf">academic transcript</a>.</p>
         <p>Below are my on-going projects</p>
+        <p><a href="http://jenkins.dliu.com">Jenkins Pipelines</a> - I manage the entire Jenkins CI/CD environment hosted on AWS. The environment is defined as Infrastructure as Code (IaC) and I made it <a href="https://github.com/deweiliu/jenkins">avilable to public</a>.</p>
         <p><a href="http://best-friends.deweiliu.com/">Best Friends App</a> - An online chatbot that does simple
             conversations</p>
         <p><a href="http://paperborne.deweiliu.com/">Paperborne</a> - An Android card game with an online demo.</p>
@@ -36,7 +37,7 @@
         <br>
 
         <p>You can also follow me via the following sites.</p>
-        <p><a href="https://www.linkedin.com/in/deweiliu/">LinkedIn</a></p>
+        <p><a href="https://www.linkedin.com/in/de-wei-liu/">LinkedIn</a></p>
         <p><a href="https://github.com/deweiliu">GitHub</a></p>
         <br>
         <br>
