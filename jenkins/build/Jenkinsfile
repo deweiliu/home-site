@@ -30,7 +30,7 @@ pipeline {
 
         stage('Trigger Deployer'){
             steps{
-                build './deploy'
+                build(job: './deploy', wait: false)
             }
         }
     }
