@@ -23,5 +23,11 @@ pipeline {
                 sh 'docker logout'
             }
         }
+
+        stage('Trigger Deployer'){
+            steps{
+                build './deploy'
+            }
+        }
     }
 }
