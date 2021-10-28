@@ -36,6 +36,7 @@ export class EcsStack extends cdk.NestedStack {
             assignPublicIp: true,
             vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
             securityGroups: [securityGroup],
+            desiredCount: 1, // Run 1 insance of the task
         });
 
         this.fargateService.attachToApplicationTargetGroup(props.albTargetGroup);

@@ -9,7 +9,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk-deploy": "cdk deploy --require-approval=never",
-    "cdk-synth": "cdk synth > cdk.out/template.yml"
+    "cdk-synth": "cdk synth"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.129.0",
