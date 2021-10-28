@@ -5,8 +5,10 @@ import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
 
 export interface EcsStackProps extends cdk.NestedStackProps {
     vpc: ec2.IVpc;
-    albTargetGroup: elb.IApplicationTargetGroup;
-    elbSecurityGroup: ec2.ISecurityGroup;
+    albSecurityGroup: ec2.ISecurityGroup;
+    albListener: elb.IApplicationListener;
+    albVpc: ec2.IVpc;
+
 }
 
 
@@ -14,6 +16,7 @@ export class EcsStack extends cdk.NestedStack {
     public fargateService: ecs.FargateService;
     constructor(scope: cdk.Construct, id: string, props: EcsStackProps) {
         super(scope, id, props);
+
         const cluster = new ecs.Cluster(this, 'Cluster', { vpc: props.vpc, });
 
         const taskDefinition = new ecs.TaskDefinition(this, 'TaskDefinition', {
@@ -28,7 +31,7 @@ export class EcsStack extends cdk.NestedStack {
         });
 
         const securityGroup = new ec2.SecurityGroup(this, 'ServiceSecurityGroup', { vpc: props.vpc, });
-        securityGroup.connections.allowFrom(props.elbSecurityGroup, ec2.Port.tcp(80), 'Allow traffic from ELB');
+        // securityGroup.connections.allowFrom(albSecurityGroup, ec2.Port.tcp(80), 'Allow traffic from ELB');
 
         this.fargateService = new ecs.FargateService(this, 'Service', {
             cluster,
@@ -39,7 +42,21 @@ export class EcsStack extends cdk.NestedStack {
             desiredCount: 1, // Run 1 insance of the task
         });
 
-        this.fargateService.attachToApplicationTargetGroup(props.albTargetGroup);
+        const albTargetGroup = new elb.ApplicationTargetGroup(this, 'HomeSiteTargetGroup', {
+            port: 80,
+            protocol: elb.ApplicationProtocol.HTTP,
+            healthCheck: { enabled: true },
+            vpc: props.albVpc,
+            targetType: elb.TargetType.IP,
+        });
+        this.fargateService.attachToApplicationTargetGroup(albTargetGroup);
+
+        new elb.ApplicationListenerRule(this, "HomeSiteListenerRule", {
+            listener: props.albListener,
+            priority: 5, //to change
+            targetGroups: [albTargetGroup],
+            conditions: [elb.ListenerCondition.sourceIps(['0.0.0.0/0'])],
+        });
 
 
     }
