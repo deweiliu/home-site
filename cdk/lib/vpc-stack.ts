@@ -41,24 +41,5 @@ export class VpcStack extends cdk.NestedStack {
                 vpcPeeringConnectionId: peer.ref,
             });
         }
-        // props.albVpc.publicSubnets.forEach(({ routeTable: { routeTableId } }, index) => {
-        //     new ec2.CfnRoute(this, 'RouteALBToService' + index, {
-        //         destinationCidrBlock: this.vpc.vpcCidrBlock,
-        //         routeTableId: cdk.Fn.select(i, props.publicSubnetRouteTableIds),
-        //         vpcPeeringConnectionId: peer.ref,
-        //     });
-        // });
-
-        // new ec2.CfnRoute(this, 'RouteALBToService' + 0, {
-        //     destinationCidrBlock: this.vpc.vpcCidrBlock,
-        //     routeTableId: 'rtb-04bef31089ad7670a',
-        //     vpcPeeringConnectionId: peer.ref,
-        // });
-
-        // new ec2.CfnRoute(this, 'RouteALBToService' + 1, {
-        //     destinationCidrBlock: this.vpc.vpcCidrBlock,
-        //     routeTableId: 'rtb-08be211600064b938',
-        //     vpcPeeringConnectionId: peer.ref,
-        // });
     }
 }

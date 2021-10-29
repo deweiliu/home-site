@@ -48,6 +48,7 @@ export class EcsStack extends cdk.NestedStack {
             healthCheck: { enabled: true },
             vpc: props.albVpc,
             targetType: elb.TargetType.IP,
+            // targets:[this.fargateService],
         });
         this.fargateService.attachToApplicationTargetGroup(albTargetGroup);
 
