@@ -3,11 +3,12 @@ import * as route53 from '@aws-cdk/aws-route53';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
 import * as alias from '@aws-cdk/aws-route53-targets';
-import { VpcStack } from './vpc-stack';
+import { VpcStack as SubnetStack } from './vpc-stack';
 import { EcsStack } from './ecs-stack';
 
 export interface CdkStackProps extends cdk.StackProps {
   maxAzs: number;
+  appId: number;
 }
 export class CdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: CdkStackProps) {
@@ -18,51 +19,47 @@ export class CdkStack extends cdk.Stack {
       zoneName: 'dliu.com',
     });
 
-    const publicSubnetRouteTableIds = cdk.Fn.split(',', cdk.Fn.importValue('CoreAlbVpcPublicSubnetRouteTables').toString());
-    const albVpc = ec2.Vpc.fromVpcAttributes(this, 'ALBVPC', {
-      vpcId: cdk.Fn.importValue('CoreAlbVpc'),
-      availabilityZones: cdk.Fn.split(',', cdk.Fn.importValue('CoreAlbVPCAvailabilityZones').toString()),
-      vpcCidrBlock: cdk.Fn.importValue('CoreAlbVpcCidr'),
-      publicSubnetIds: cdk.Fn.split(',', cdk.Fn.importValue('CoreAlbVpcPublicSubnets').toString()),
-      publicSubnetRouteTableIds: cdk.Fn.split(',', cdk.Fn.importValue('CoreAlbVpcPublicSubnetRouteTables').toString()),
+    const igwId = cdk.Fn.importValue('Core-InternetGateway');
+    const vpc = ec2.Vpc.fromVpcAttributes(this, 'ALBVPC', {
+      vpcId: cdk.Fn.importValue('Core-Vpc'),
+      availabilityZones: cdk.Fn.split(',', cdk.Fn.importValue('Core-VpcAvailabilityZones').toString()),
+      vpcCidrBlock: cdk.Fn.importValue('Core-VpcCidr'),
+      publicSubnetIds: cdk.Fn.split(',', cdk.Fn.importValue('Core-AlbPublicSubnets').toString()),
+      publicSubnetRouteTableIds: cdk.Fn.split(',', cdk.Fn.importValue('Core-AlbPublicSubnetRouteTables').toString()),
     });
 
     // const albVpc = ec2.Vpc.fromVpcAttributes(this, 'ALBVPC', {
-    //   vpcId: cdk.Fn.importValue('CoreAlbVpc'),
+    //   vpcId: cdk.Fn.importValue('Core-AlbVpc'),
     //   availabilityZones: ['eu-west-1'],
-    //   vpcCidrBlock: cdk.Fn.importValue('CoreAlbVpcCidr'),
+    //   vpcCidrBlock: cdk.Fn.importValue('Core-AlbVpcCidr'),
     //   publicSubnetIds: [],
     //   publicSubnetRouteTableIds: [],
     // });
 
     const albSecurityGroup = ec2.SecurityGroup.fromSecurityGroupId(this, "ALBSecurityGroup",
-      cdk.Fn.importValue('CoreAlbSecurityGroup')
+      cdk.Fn.importValue('Core-AlbSecurityGroup')
     );
     const albListener = elb.ApplicationListener.fromApplicationListenerAttributes(this, "ELBListener", {
-      listenerArn: cdk.Fn.importValue('CoreAlbListener'),
+      listenerArn: cdk.Fn.importValue('Core-AlbListener'),
       securityGroup: albSecurityGroup,
     });
 
     const alb = elb.ApplicationLoadBalancer.fromApplicationLoadBalancerAttributes(this, 'ALB', {
-      loadBalancerArn: cdk.Fn.importValue('CoreAlb').toString(),
-      securityGroupId: cdk.Fn.importValue('CoreAlbSecurityGroup').toString(),
-      loadBalancerCanonicalHostedZoneId: cdk.Fn.importValue('CoreAlbCanonicalHostedZone').toString(),
-      loadBalancerDnsName: cdk.Fn.importValue('CoreAlbDns').toString(),
+      loadBalancerArn: cdk.Fn.importValue('Core-Alb').toString(),
+      securityGroupId: cdk.Fn.importValue('Core-AlbSecurityGroup').toString(),
+      loadBalancerCanonicalHostedZoneId: cdk.Fn.importValue('Core-AlbCanonicalHostedZone').toString(),
+      loadBalancerDnsName: cdk.Fn.importValue('Core-AlbDns').toString(),
     });
 
+    const vpcStack = new SubnetStack(this, 'SubnetStack', { vpc: vpc, maxAzs: props.maxAzs, appId: props.appId, igwId });
 
-
-    const vpcStack = new VpcStack(this, 'VPC', { albVpc, maxAzs: props.maxAzs, publicSubnetRouteTableIds });
-
-    // const elbStack = new LoadBalancingStack(this, 'LoadBalancing',
-    //   { vpc: vpcStack.vpc, hostedZone, }
-    // );
 
     const ecs = new EcsStack(this, 'ECS', {
-      vpc: vpcStack.vpc,
+      subnets: vpcStack.subnets,
       albSecurityGroup,
       albListener,
-      albVpc,
+      vpc: vpc,
+      appId: props.appId,
     });
 
     const record = new route53.ARecord(this, "AliasRecord",
@@ -71,9 +68,7 @@ export class CdkStack extends cdk.Stack {
         target: route53.RecordTarget.fromAlias(new alias.LoadBalancerTarget(alb)),
       });
 
-
-    new cdk.CfnOutput(this, 'DnsName', { value: 'dliu.com' });
-    new cdk.CfnOutput(this, 'AlbDnsName', { value: alb.loadBalancerDnsName });
+    new cdk.CfnOutput(this, 'AlbDnsName', { value: record.domainName });
 
   }
 }
