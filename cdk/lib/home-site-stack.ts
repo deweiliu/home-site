@@ -35,14 +35,15 @@ export class CdkStack extends cdk.Stack {
 
   importValues() {
     const hostedZone = route53.HostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
-      hostedZoneId: cdk.Fn.importValue('DLIUCOMHostedZoneID').toString(),
+      hostedZoneId: cdk.Fn.importValue('DLIUCOMHostedZoneID'),
       zoneName: 'dliu.com',
     });
 
     const igwId = cdk.Fn.importValue('Core-InternetGateway');
+
     const vpc = ec2.Vpc.fromVpcAttributes(this, 'ALBVPC', {
       vpcId: cdk.Fn.importValue('Core-Vpc'),
-      availabilityZones: cdk.Fn.split(',', cdk.Fn.importValue('Core-VpcAvailabilityZones').toString()),
+      availabilityZones: cdk.Stack.of(this).availabilityZones,
     });
 
     const albSecurityGroup = ec2.SecurityGroup.fromSecurityGroupId(this, "ALBSecurityGroup",
@@ -54,13 +55,12 @@ export class CdkStack extends cdk.Stack {
     });
 
     const alb = elb.ApplicationLoadBalancer.fromApplicationLoadBalancerAttributes(this, 'ALB', {
-      loadBalancerArn: cdk.Fn.importValue('Core-Alb').toString(),
-      securityGroupId: cdk.Fn.importValue('Core-AlbSecurityGroup').toString(),
-      loadBalancerCanonicalHostedZoneId: cdk.Fn.importValue('Core-AlbCanonicalHostedZone').toString(),
-      loadBalancerDnsName: cdk.Fn.importValue('Core-AlbDns').toString(),
+      loadBalancerArn: cdk.Fn.importValue('Core-Alb'),
+      securityGroupId: albSecurityGroup.securityGroupId,
+      loadBalancerCanonicalHostedZoneId: cdk.Fn.importValue('Core-AlbCanonicalHostedZone'),
+      loadBalancerDnsName: cdk.Fn.importValue('Core-AlbDns'),
     });
 
     return { hostedZone, igwId, vpc, alb, albSecurityGroup, albListener };
-
   }
 }
