@@ -21,7 +21,7 @@
         <h1><a href="/">Dewei Liu</a></h1>
 
         <p>Hi, welcome to my personal website.</p>
-        <p>Please view my <a href="doc/resume.pdf">resume</a> and <a href="doc/transcript.pdf">academic transcript</a>.</p>
+        <p>Please view my <a href="doc/resume.pdf">resume</a>.</p>
         <p>Below are my on-going projects</p>
         <p><a href="http://jenkins.dliu.com">Jenkins Pipelines</a> - I manage the entire Jenkins CI/CD environment hosted on AWS. The environment is defined as Infrastructure as Code (IaC) and I made it <a href="https://github.com/deweiliu/jenkins">avilable to public</a>.</p>
         <p><a href="http://best-friends.deweiliu.com/">Best Friends App</a> - An online chatbot that does simple
