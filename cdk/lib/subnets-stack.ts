@@ -6,17 +6,17 @@ import * as route53 from '@aws-cdk/aws-route53';
 import { PublicSubnet, Subnet } from '@aws-cdk/aws-ec2';
 import { Fn } from '@aws-cdk/core';
 
-export interface VpcStackProps extends cdk.NestedStackProps {
+export interface SubnetsStackProps extends cdk.NestedStackProps {
     vpc: ec2.IVpc;
     maxAzs: number;
     appId: number;
     igwId: string;
 
 }
-export class VpcStack extends cdk.NestedStack {
+export class SubnetsStack extends cdk.NestedStack {
     public vpc: ec2.Vpc;
     public subnets: Subnet[] = [];
-    constructor(scope: cdk.Construct, id: string, props: VpcStackProps) {
+    constructor(scope: cdk.Construct, id: string, props: SubnetsStackProps) {
         super(scope, id, props);
 
         [...Array(props.maxAzs).keys()].forEach(azIndex => {

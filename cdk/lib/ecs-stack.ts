@@ -11,7 +11,6 @@ export interface EcsStackProps extends cdk.NestedStackProps {
     appId: number;
 }
 
-
 export class EcsStack extends cdk.NestedStack {
     public fargateService: ecs.FargateService;
     constructor(scope: cdk.Construct, id: string, props: EcsStackProps) {
@@ -59,8 +58,6 @@ export class EcsStack extends cdk.NestedStack {
             targetGroups: [albTargetGroup],
             conditions: [elb.ListenerCondition.sourceIps(['0.0.0.0/0'])],
         });
-
-        // this.fargateService.attachToApplicationTargetGroup(albTargetGroup);
     }
 }
 
