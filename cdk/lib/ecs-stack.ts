@@ -9,6 +9,7 @@ export interface EcsStackProps extends cdk.NestedStackProps {
     albSecurityGroup: ec2.ISecurityGroup;
     albListener: elb.IApplicationListener;
     appId: number;
+    dns: string;
 }
 
 export class EcsStack extends cdk.NestedStack {
@@ -56,8 +57,10 @@ export class EcsStack extends cdk.NestedStack {
             listener: props.albListener,
             priority: props.appId * 10,
             targetGroups: [albTargetGroup],
-            conditions: [elb.ListenerCondition.sourceIps(['0.0.0.0/0'])],
+            conditions: [elb.ListenerCondition.hostHeaders([props.dns])],
         });
+        let a: elb.ApplicationListener;
+
     }
 }
 

@@ -9,11 +9,12 @@ import { EcsStack } from './ecs-stack';
 export interface CdkStackProps extends cdk.StackProps {
   maxAzs: number;
   appId: number;
+  dns: string;
 }
 export class CdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: CdkStackProps) {
     super(scope, id, props);
-    const { hostedZone, igwId, vpc, alb, albSecurityGroup, albListener } = this.importValues();
+    const { hostedZone, igwId, vpc, alb, albSecurityGroup, albListener } = this.importValues(props);
 
     const vpcStack = new SubnetsStack(this, 'SubnetsStack', { vpc: vpc, maxAzs: props.maxAzs, appId: props.appId, igwId });
 
@@ -23,6 +24,7 @@ export class CdkStack extends cdk.Stack {
       albListener,
       vpc: vpc,
       appId: props.appId,
+      dns: props.dns,
     });
 
     const record = new route53.ARecord(this, "AliasRecord", {
@@ -33,10 +35,10 @@ export class CdkStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'DnsName', { value: record.domainName });
   }
 
-  importValues() {
+  importValues(props: CdkStackProps) {
     const hostedZone = route53.HostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
       hostedZoneId: cdk.Fn.importValue('DLIUCOMHostedZoneID'),
-      zoneName: 'dliu.com',
+      zoneName: props.dns,
     });
 
     const igwId = cdk.Fn.importValue('Core-InternetGateway');
