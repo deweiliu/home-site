@@ -5,6 +5,7 @@ import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
 import * as alias from '@aws-cdk/aws-route53-targets';
 import { SubnetsStack } from './subnets-stack';
 import { EcsStack } from './ecs-stack';
+import { Tags } from '@aws-cdk/core';
 
 export interface CdkStackProps extends cdk.StackProps {
   maxAzs: number;
@@ -14,6 +15,8 @@ export interface CdkStackProps extends cdk.StackProps {
 export class CdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: CdkStackProps) {
     super(scope, id, props);
+    Tags.of(this).add('service','home-site');
+
     const { hostedZone, igwId, vpc, alb, albSecurityGroup, albListener } = this.importValues(props);
 
     const vpcStack = new SubnetsStack(this, 'SubnetsStack', { vpc: vpc, maxAzs: props.maxAzs, appId: props.appId, igwId });
