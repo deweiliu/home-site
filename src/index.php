@@ -19,6 +19,7 @@
         </div>
 
         <h1><a href="/">Dewei Liu</a></h1>
+        From feature branch.
 
         <p>Hi, welcome to my personal website.</p>
         <p>Please view my <a href="doc/resume.pdf">resume</a>.</p>
