@@ -16,7 +16,7 @@ pipeline {
         stage('Docker Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'username', passwordVariable: 'password')]) {
-                    sh "docker login --username ${username} --password ${password}"
+                    sh 'docker login --username $username --password $password'
                 }
 
                 sh 'docker-compose push'
