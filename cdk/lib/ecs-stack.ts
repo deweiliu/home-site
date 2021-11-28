@@ -33,7 +33,6 @@ export class EcsStack extends cdk.NestedStack {
         const securityGroup = new ec2.SecurityGroup(this, 'ServiceSecurityGroup', { vpc: props.vpc, });
 
         securityGroup.connections.allowFrom(props.albSecurityGroup, ec2.Port.tcp(80), 'Allow traffic from ELB');
-        securityGroup.connections.allowFromAnyIpv4(ec2.Port.tcp(80));
 
         this.fargateService = new ecs.FargateService(this, 'Service', {
             cluster,
