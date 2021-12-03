@@ -58,8 +58,6 @@ export class EcsStack extends cdk.NestedStack {
             targetGroups: [albTargetGroup],
             conditions: [elb.ListenerCondition.hostHeaders([props.dns])],
         });
-        let a: elb.ApplicationListener;
-
     }
 }
 
