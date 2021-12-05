@@ -24,7 +24,7 @@
         <p>Please view my <a href="doc/resume.pdf">resume</a>.</p>
         <p>Below are my on-going projects</p>
         <p><a href="http://jenkins.dliu.com">Jenkins Pipelines</a> - I manage the entire Jenkins CI/CD environment hosted on AWS. The environment is defined as Infrastructure as Code (IaC) and I made it <a href="https://github.com/deweiliu/jenkins">avilable to public</a>.</p>
-        <p><a href="http://best-friends.dliu.com/">Best Friends App</a> - An online chatbot that does simple
+        <p><a href="http://bfa.dliu.com/">Best Friends App</a> - An online chatbot that does simple
             conversations</p>
         <p><a href="http://paperborne.dliu.com/">Paperborne</a> - An Android card game with an online demo.</p>
         <br>
