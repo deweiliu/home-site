@@ -14,8 +14,8 @@
     <div class="w3-container">
 
         <div style="float: right;">
-            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="af9d08bc-3db5-4d8d-abe5-fbfda1b28b2f" data-share-badge-host="https://www.youracclaim.com"></div>
-            <script type="text/javascript" async src="//cdn.youracclaim.com/assets/utilities/embed.js"></script>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="8c545d9d-fab9-437c-bdd2-254fc07e8bb4" data-share-badge-host="https://www.credly.com"></div>
+            <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
         </div>
 
         <h1><a href="/">Dewei Liu</a></h1>
