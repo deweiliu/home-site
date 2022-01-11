@@ -12,6 +12,7 @@ export interface CdkStackProps extends cdk.StackProps {
   appId: number;
   domain: string;
   appName: string;
+  instanceCount: number;
 }
 export class CdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: CdkStackProps) {
@@ -32,6 +33,7 @@ export class CdkStack extends cdk.Stack {
     const service = new ecs.Ec2Service(this, 'Service', {
       cluster: get.cluster,
       taskDefinition,
+      desiredCount: get.instanceCount,
     });
     get.clusterSecurityGroup.connections.allowFrom(get.albSecurityGroup, ec2.Port.tcp(get.hostPort), `Allow traffic from ELB for ${get.appName}`);
 
@@ -57,11 +59,6 @@ export class CdkStack extends cdk.Stack {
     });
     get.albListener.addCertificates('AddCertificate', [certificate]);
 
-    // const record = new route53.CnameRecord(this, "AliasRecord", {
-    //   zone: get.hostedZone,
-    //   domainName: get.alb.loadBalancerDnsName,
-    //   ttl: Duration.hours(1),
-    // });
     const record = new route53.ARecord(this, "AliasRecord", {
       zone: get.hostedZone,
       target: route53.RecordTarget.fromAlias(new alias.LoadBalancerTarget(get.alb)),
