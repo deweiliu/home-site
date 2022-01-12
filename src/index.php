@@ -24,7 +24,7 @@
         <p>Please view my <a href="doc/resume.pdf">resume</a>.</p>
         <p>Below are my on-going projects</p>
         <p><a href="http://jenkins.dliu.com">Jenkins Pipelines</a> - I manage the entire Jenkins CI/CD environment hosted on AWS. The environment is defined as Infrastructure as Code (IaC) and I made it <a href="https://github.com/deweiliu/jenkins">avilable to public</a>.</p>
-        <p><a href="http://bfa.dliu.com/">Best Friends App</a> - An online chatbot that does simple
+        <p><a href="https://best-friends.deweiliu.com/">Best Friends App</a> - An online chatbot that does simple
             conversations</p>
         <p><a href="http://paperborne.dliu.com/">Paperborne</a> - An Android card game with an online demo.</p>
         <br>
@@ -36,19 +36,13 @@
         <p><a href="https://clumsy-bird.deweiliu.com/">Clumsy Bird</a></p>
         <br>
 
-        <p>You can also follow me via the following sites.</p>
+        <p>To learn more about me:</p>
         <p><a href="https://www.linkedin.com/in/de-wei-liu/">LinkedIn</a></p>
         <p><a href="https://github.com/deweiliu">GitHub</a></p>
+        <p><a href="https://photos.dliu.com">My Photos</a></p>
         <br>
         <br>
 
-
-        <p>Updated on
-            <?php
-            $time = getenv('UPDATE_TIME');
-            echo date("d F Y", $time);
-            ?>
-        </p>
         <p>Thank you :)</p>
         <img src="/images/favicon.png" width="50px" height="50px">
     </div>
