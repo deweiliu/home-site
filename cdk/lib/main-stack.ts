@@ -1,21 +1,28 @@
-import * as cdk from '@aws-cdk/core';
-import * as route53 from '@aws-cdk/aws-route53';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
-import { ImportValues } from './import-values';
-import * as acm from '@aws-cdk/aws-certificatemanager';
-import * as alias from '@aws-cdk/aws-route53-targets';
+import { Construct } from 'constructs';
+import {
+  aws_route53 as route53,
+  aws_ec2 as ec2,
+  aws_ecs as ecs,
+  aws_elasticloadbalancingv2 as elb,
+  aws_certificatemanager as acm,
+  StackProps,
+  Stack,
+  CfnOutput,
+  aws_route53_targets as alias,
+} from 'aws-cdk-lib';
 
-export interface CdkStackProps extends cdk.StackProps {
+
+import { ImportValues } from './import-values';
+
+export interface CdkStackProps extends StackProps {
   maxAzs: number;
   appId: number;
   domain: string;
   appName: string;
   instanceCount: number;
 }
-export class CdkStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: CdkStackProps) {
+export class CdkStack extends Stack {
+  constructor(scope: Construct, id: string, props: CdkStackProps) {
     super(scope, id, props);
 
     const get = new ImportValues(this, props);
@@ -64,6 +71,6 @@ export class CdkStack extends cdk.Stack {
       target: route53.RecordTarget.fromAlias(new alias.LoadBalancerTarget(get.alb)),
     });
 
-    new cdk.CfnOutput(this, 'DnsName', { value: record.domainName });
+    new CfnOutput(this, 'DnsName', { value: record.domainName });
   }
 }
