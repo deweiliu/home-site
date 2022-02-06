@@ -23,10 +23,11 @@
         <p>Hi, welcome to my personal website.</p>
         <p>Please view my <a href="doc/resume.pdf">resume</a>.</p>
         <p>Below are my on-going projects</p>
-        <p><a href="http://jenkins.dliu.com">Jenkins Pipelines</a> - I manage the entire Jenkins CI/CD environment hosted on AWS. The environment is defined as Infrastructure as Code (IaC) and I made it <a href="https://github.com/deweiliu/jenkins">avilable to public</a>.</p>
+        <p><a href="https://jenkins.dliu.com">Jenkins Pipelines</a> - I manage the entire Jenkins CI/CD environment hosted on AWS. The environment is defined as Infrastructure as Code (IaC) and I made it <a href="https://github.com/deweiliu/jenkins">avilable to public</a>.</p>
         <p><a href="https://bfa.dliu.com/">Best Friends App</a> - An online chatbot that does simple
             conversations</p>
-        <p><a href="http://paperborne.dliu.com/">Paperborne</a> - An Android card game with an online demo.</p>
+        <p><a href="https://paperborne.dliu.com/">Paperborne</a> - An Android card game with an online demo.</p>
+        <p><a href="https://dev.dliu.com/">Developer Wiki</a> - A wiki that documents how my websites are configured and how they work.</p>
         <br>
         <p>Below are my games</p>
         <p><a href="https://rps.deweiliu.com/">Rock Paper Scissors</a></p>
