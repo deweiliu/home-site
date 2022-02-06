@@ -37,7 +37,7 @@
         <p><a href="https://clumsy-bird.deweiliu.com/">Clumsy Bird</a></p>
         <br>
 
-        <p>To learn more about me:</p>
+        <p>To learn more about me, come to my <a href="https://blog.dliu.com">Dewei Blog</a></p>, or visit
         <p><a href="https://www.linkedin.com/in/de-wei-liu/">LinkedIn</a></p>
         <p><a href="https://github.com/deweiliu">GitHub</a></p>
         <p><a href="https://photos.dliu.com">My Photos</a></p>
