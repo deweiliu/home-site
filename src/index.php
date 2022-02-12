@@ -22,26 +22,27 @@
 
         <p>Hi, welcome to my personal website.</p>
         <p>Please view my <a href="https://files.dliu.com/me/resume.pdf">resume</a> and my recent <a href="https://ieeexplore.ieee.org/document/9560107">publication on IEEE</a>.</p>
-        <p>Below are my on-going projects</p>
+        <br>
+        <p>Below are my applications</p>
         <p><a href="https://jenkins.dliu.com">Jenkins Pipelines</a> - I manage the entire Jenkins CI/CD environment hosted on AWS. The environment is defined as Infrastructure as Code (IaC) and I made it <a href="https://github.com/deweiliu/jenkins">avilable to public</a>.</p>
         <p><a href="https://bfa.dliu.com/">Best Friends App</a> - An online chatbot that does simple
             conversations</p>
         <p><a href="https://paperborne.dliu.com/">Paperborne</a> - An Android card game with an online demo.</p>
-        <p><a href="https://dev.dliu.com/">Developer Wiki</a> - A wiki that documents how my websites are configured and how they work.</p>
-        <p><a href="https://files.dliu.com/">File Server</a> - A file server that servers static files to my other websites, powered by Apache httpd.</p>
-        <br>
-        <p>Below are my games</p>
-        <p><a href="https://rps.deweiliu.com/">Rock Paper Scissors</a></p>
-        <p><a href="https://super-mario.deweiliu.com/">Super Mario Brothers</a></p>
-        <p><a href="https://pacman.deweiliu.com/">Pac-Man</a></p>
-        <p><a href="https://racer.deweiliu.com/">3D Racer</a></p>
-        <p><a href="https://clumsy-bird.deweiliu.com/">Clumsy Bird</a></p>
+        <p><a href="https://repeater.deweiliu.com/">Webpage Repeater</a> - Act as a proxy to display webpages.</p>
         <br>
 
-        <p>To learn more about me, come to my <a href="https://blog.dliu.com">Dewei Blog</a></p>, or visit
+        <p>I also host open-source applications where I can learn more about me</p>
+        
+        <p> <a href="https://blog.dliu.com">Dewei Blog</a> - I regularly post technical and non-technical articles on my blog</p>
+        <p><a href="https://files.dliu.com/">File Server</a> - A file server that servers static files to my other websites, powered by Apache httpd.</p>
+        <p><a href="https://dev.dliu.com/">Developer Wiki</a> - A wiki that documents how my websites are configured and how they work.</p>
+        <p><a href="https://photos.dliu.com">My Photos</a></p>
+        <br>
+
+        <p>To learn more about me, please follow me on</p>
         <p><a href="https://www.linkedin.com/in/de-wei-liu/">LinkedIn</a></p>
         <p><a href="https://github.com/deweiliu">GitHub</a></p>
-        <p><a href="https://photos.dliu.com">My Photos</a></p>
+        <p><a href="https://www.facebook.com/hello.dewei/">Facebook</a></p>
         <br>
         <br>
 
