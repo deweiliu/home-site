@@ -40,7 +40,7 @@
         <br>
 
         <p>To learn more about me, please follow me on</p>
-        <p><a href="https://www.linkedin.com/in/de-wei-liu/">LinkedIn</a></p>
+        <p><a href="https://www.linkedin.com/in/deweiliu/">LinkedIn</a></p>
         <p><a href="https://github.com/deweiliu">GitHub</a></p>
         <p><a href="https://www.facebook.com/hello.dewei/">Facebook</a></p>
         <br>
