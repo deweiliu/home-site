@@ -7,7 +7,6 @@ const app = new App();
 new CdkStack(app, 'HomeSite', {
   maxAzs: 2,
   appId: 2,
-  domain: 'dliu.com',
   appName: 'home-site',
   instanceCount: 2,
   tags: { service: 'home-site' },

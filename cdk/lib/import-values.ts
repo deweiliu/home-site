@@ -24,11 +24,10 @@ export class ImportValues extends Construct implements CdkStackProps {
 
     public maxAzs: number;
     public appId: number;
-    public domain: string;
     public appName: string;
     public dockerImage: string;
-    public priority: number;
     public dnsName: string;
+    public priority: number;
     public hostPort: number;
     public instanceCount: number;
 
@@ -37,19 +36,19 @@ export class ImportValues extends Construct implements CdkStackProps {
 
         this.maxAzs = props.maxAzs;
         this.appId = props.appId;
-        this.domain = props.domain;
         this.appName = props.appName;
         this.instanceCount = props.instanceCount;
 
         this.dockerImage = `deweiliu/${this.appName}`;
         this.priority = this.appId * 10;
-        this.dnsName = this.domain;
         this.hostPort = this.appId * 1000;
 
         this.hostedZone = route53.HostedZone.fromHostedZoneAttributes(scope, 'HostedZone', {
-            hostedZoneId: Fn.importValue('DLIUCOMHostedZoneID'),
-            zoneName: props.domain,
+            hostedZoneId: Fn.importValue('MainHostedZoneId'),
+            zoneName: Fn.importValue('MainDomain'),
         });
+        this.dnsName = this.hostedZone.zoneName;
+
 
         this.igwId = Fn.importValue('Core-InternetGateway');
 

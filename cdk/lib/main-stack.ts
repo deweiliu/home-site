@@ -17,7 +17,6 @@ import { ImportValues } from './import-values';
 export interface CdkStackProps extends StackProps {
   maxAzs: number;
   appId: number;
-  domain: string;
   appName: string;
   instanceCount: number;
 }
